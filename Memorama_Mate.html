@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Memorama de Matemáticas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .tablero {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .carta {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .carta.volteada {
+            background-color: white;
+            color: black;
+            border: 2px solid #4CAF50;
+            cursor: default;
+        }
+
+        .carta.correcta {
+            background-color: #2196F3;
+            color: white;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🧠 Memorama de Matemáticas</h1>
+<p>Encuentra la operación y su resultado</p>
+
+<div class="tablero" id="tablero"></div>
+
+<script>
+    const pares = [
+        { texto: "4 + 3", valor: 7 },
+        { texto: "7", valor: 7 },
+
+        { texto: "9 - 5", valor: 4 },
+        { texto: "4", valor: 4 },
+
+        { texto: "6 × 2", valor: 12 },
+        { texto: "12", valor: 12 },
+
+        { texto: "8 ÷ 4", valor: 2 },
+        { texto: "2", valor: 2 }
+    ];
+
+    let cartas = [];
+    let seleccionadas = [];
+    let bloqueo = false;
+
+    function iniciarJuego() {
+        cartas = [...pares].sort(() => Math.random() - 0.5);
+        const tablero = document.getElementById("tablero");
+        tablero.innerHTML = "";
+
+        cartas.forEach((carta, index) => {
+            const div = document.createElement("div");
+            div.classList.add("carta");
+            div.dataset.valor = carta.valor;
+            div.dataset.index = index;
+            div.textContent = "?";
+
+            div.addEventListener("click", () => voltearCarta(div, carta.texto));
+            tablero.appendChild(div);
+        });
+    }
+
+    function voltearCarta(div, texto) {
+        if (bloqueo || div.classList.contains("volteada")) return;
+
+        div.textContent = texto;
+        div.classList.add("volteada");
+        seleccionadas.push(div);
+
+        if (seleccionadas.length === 2) {
+            bloqueo = true;
+            setTimeout(comprobarPareja, 800);
+        }
+    }
+
+    function comprobarPareja() {
+        const [c1, c2] = seleccionadas;
+
+        if (c1.dataset.valor === c2.dataset.valor) {
+            c1.classList.add("correcta");
+            c2.classList.add("correcta");
+        } else {
+            c1.textContent = "?";
+            c2.textContent = "?";
+            c1.classList.remove("volteada");
+            c2.classList.remove("volteada");
+        }
+
+        seleccionadas = [];
+        bloqueo = false;
+    }
+
+    iniciarJuego();
+</script>
+
+</body>
+</html>

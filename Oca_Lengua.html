@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Juego de la Oca - Lengua</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f1ec;
+        text-align: center;
+    }
+
+    h1 {
+        color: #006847;
+    }
+
+    .board {
+        width: 600px;
+        margin: 20px auto;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+    }
+
+    .cell {
+        height: 80px;
+        background: #ce1126;
+        color: white;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .player {
+        background: #006847;
+        font-weight: bold;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background: #006847;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    #info {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🎲 Juego de la Oca: Lengua</h1>
+<p>Responde correctamente para avanzar</p>
+
+<div class="board" id="board"></div>
+
+<button onclick="rollDice()">🎲 Tirar dado</button>
+<div id="info"></div>
+
+<script>
+    const totalCells = 30;
+    let playerPosition = 0;
+
+    const questions = {
+        3: {
+            question: "¿Qué tipo de palabra nombra personas, animales o cosas?",
+            answer: "Sustantivo"
+        },
+        6: {
+            question: "¿Qué palabra indica acción?",
+            answer: "Verbo"
+        },
+        9: {
+            question: "¿Qué palabra describe al sustantivo?",
+            answer: "Adjetivo"
+        },
+        12: {
+            question: "¿Cómo se llama el conjunto de palabras con sentido completo?",
+            answer: "Oración"
+        },
+        15: {
+            question: "¿Qué palabra tiene significado contrario a otra?",
+            answer: "Antónimo"
+        },
+        18: {
+            question: "¿Qué palabra tiene significado similar a otra?",
+            answer: "Sinónimo"
+        },
+        21: {
+            question: "¿Qué signo se usa para preguntar?",
+            answer: "¿?"
+        },
+        24: {
+            question: "¿Cómo se llama la sílaba pronunciada con mayor fuerza?",
+            answer: "Tónica"
+        }
+    };
+
+    const board = document.getElementById("board");
+    const info = document.getElementById("info");
+
+    function createBoard() {
+        board.innerHTML = "";
+        for (let i = 0; i < totalCells; i++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+
+            if (i === playerPosition) {
+                cell.classList.add("player");
+                cell.textContent = "🧍 " + i;
+            } else {
+                cell.textContent = i;
+            }
+
+            board.appendChild(cell);
+        }
+    }
+
+    function rollDice() {
+        const dice = Math.floor(Math.random() * 6) + 1;
+        info.textContent = "🎲 Sacaste un " + dice;
+        playerPosition += dice;
+
+        if (playerPosition >= totalCells - 1) {
+            playerPosition = totalCells - 1;
+            info.textContent = "🎉 ¡Ganaste! Completaste el recorrido.";
+            createBoard();
+            return;
+        }
+
+        if (questions[playerPosition]) {
+            setTimeout(() => {
+                askQuestion(playerPosition);
+            }, 300);
+        }
+
+        createBoard();
+    }
+
+    function askQuestion(position) {
+        const userAnswer = prompt(questions[position].question);
+
+        if (userAnswer &&
+            userAnswer.toLowerCase() === questions[position].answer.toLowerCase()) {
+            alert("✅ Correcto. Avanzas 2 casillas.");
+            playerPosition += 2;
+        } else {
+            alert("❌ Incorrecto. Respuesta correcta: " + questions[position].answer);
+            playerPosition -= 1;
+        }
+
+        if (playerPosition < 0) playerPosition = 0;
+        createBoard();
+    }
+
+    createBoard();
+</script>
+
+</body>
+</html>

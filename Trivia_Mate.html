@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Trivia de Matemáticas</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f6fc;
+    text-align: center;
+}
+
+.contenedor {
+    background: white;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.opcion {
+    display: block;
+    background: #e3e8f0;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.opcion:hover {
+    background: #cfd8ec;
+}
+
+.correcta {
+    background: #4CAF50;
+    color: white;
+}
+
+.incorrecta {
+    background: #f44336;
+    color: white;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+    <h1>🧠 Trivia de Matemáticas</h1>
+    <p id="pregunta"></p>
+
+    <div id="opciones"></div>
+
+    <p id="resultado"></p>
+    <button onclick="siguientePregunta()">Siguiente</button>
+</div>
+
+<script>
+const preguntas = [
+    {
+        pregunta: "¿Cuánto es 8 × 7?",
+        opciones: ["54", "56", "64", "48"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Cuál es el resultado de 25 ÷ 5?",
+        opciones: ["10", "15", "5", "20"],
+        correcta: 2
+    },
+    {
+        pregunta: "¿Cómo se llama una figura con tres lados?",
+        opciones: ["Cuadrado", "Rectángulo", "Triángulo", "Círculo"],
+        correcta: 2
+    },
+    {
+        pregunta: "¿Qué es una fracción?",
+        opciones: [
+            "Una suma",
+            "Parte de un todo",
+            "Una resta",
+            "Un número decimal"
+        ],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Cuál es el perímetro de un cuadrado de lado 4?",
+        opciones: ["8", "12", "16", "20"],
+        correcta: 2
+    }
+];
+
+let indice = 0;
+let puntaje = 0;
+
+function cargarPregunta() {
+    document.getElementById("resultado").textContent = "";
+    const p = preguntas[indice];
+    document.getElementById("pregunta").textContent = p.pregunta;
+
+    const opcionesDiv = document.getElementById("opciones");
+    opcionesDiv.innerHTML = "";
+
+    p.opciones.forEach((op, i) => {
+        const div = document.createElement("div");
+        div.textContent = op;
+        div.className = "opcion";
+        div.onclick = () => comprobarRespuesta(div, i);
+        opcionesDiv.appendChild(div);
+    });
+}
+
+function comprobarRespuesta(elemento, seleccion) {
+    const correcta = preguntas[indice].correcta;
+    const opciones = document.querySelectorAll(".opcion");
+
+    opciones.forEach(op => op.onclick = null);
+
+    if (seleccion === correcta) {
+        elemento.classList.add("correcta");
+        document.getElementById("resultado").textContent = "✅ Correcto";
+        puntaje++;
+    } else {
+        elemento.classList.add("incorrecta");
+        opciones[correcta].classList.add("correcta");
+        document.getElementById("resultado").textContent = "❌ Incorrecto";
+    }
+}
+
+function siguientePregunta() {
+    indice++;
+    if (indice < preguntas.length) {
+        cargarPregunta();
+    } else {
+        document.querySelector(".contenedor").innerHTML =
+            `<h2>🎉 Trivia terminada</h2>
+             <p>Tu puntaje fue: ${puntaje} / ${preguntas.length}</p>`;
+    }
+}
+
+cargarPregunta();
+</script>
+
+</body>
+</html>

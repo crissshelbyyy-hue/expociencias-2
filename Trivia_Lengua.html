@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Trivia de Lengua</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f1ec;
+        text-align: center;
+    }
+
+    h1 {
+        color: #006847;
+    }
+
+    .container {
+        width: 500px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .question {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .options button {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #ce1126;
+        color: white;
+    }
+
+    .correct {
+        background: #006847 !important;
+    }
+
+    .wrong {
+        background: #444 !important;
+    }
+
+    #feedback {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    #nextBtn {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #006847;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        display: none;
+    }
+
+    #score {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🧠 Trivia de Lengua</h1>
+
+<div class="container">
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <button id="nextBtn" onclick="nextQuestion()">Siguiente</button>
+    <div id="score"></div>
+</div>
+
+<script>
+    const trivia = [
+        {
+            question: "¿Cuál de las siguientes palabras es un adverbio?",
+            options: ["Rápido", "Correr", "Muy", "Mesa"],
+            answer: "Muy"
+        },
+        {
+            question: "¿Qué tipo de palabra sustituye al sustantivo?",
+            options: ["Adjetivo", "Pronombre", "Verbo", "Artículo"],
+            answer: "Pronombre"
+        },
+        {
+            question: "¿Cuál palabra está correctamente acentuada?",
+            options: ["Arbol", "Camion", "Lápiz", "Examenes"],
+            answer: "Lápiz"
+        },
+        {
+            question: "¿Qué signo se usa al final de una oración afirmativa?",
+            options: [".", "¿?", "¡!", ","],
+            answer: "."
+        },
+        {
+            question: "¿Qué tipo de texto narra hechos reales o ficticios?",
+            options: ["Descriptivo", "Narrativo", "Argumentativo", "Instructivo"],
+            answer: "Narrativo"
+        },
+        {
+            question: "¿Cuál de estas palabras es una conjunción?",
+            options: ["Pero", "Grande", "Correr", "Ellos"],
+            answer: "Pero"
+        },
+        {
+            question: "¿Cómo se llaman las palabras que se escriben igual pero significan cosas diferentes?",
+            options: ["Sinónimos", "Antónimos", "Homónimos", "Parónimos"],
+            answer: "Homónimos"
+        },
+        {
+            question: "¿Qué tipo de palabra acompaña al sustantivo y concuerda con él?",
+            options: ["Adverbio", "Adjetivo", "Verbo", "Conjunción"],
+            answer: "Adjetivo"
+        }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreEl = document.getElementById("score");
+
+    function loadQuestion() {
+        feedbackEl.textContent = "";
+        nextBtn.style.display = "none";
+        questionEl.textContent = trivia[currentQuestion].question;
+        optionsEl.innerHTML = "";
+
+        trivia[currentQuestion].options.forEach(option => {
+            const btn = document.createElement("button");
+            btn.textContent = option;
+            btn.onclick = () => checkAnswer(btn, option);
+            optionsEl.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(button, selected) {
+        const correct = trivia[currentQuestion].answer;
+
+        Array.from(optionsEl.children).forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            button.classList.add("correct");
+            feedbackEl.textContent = "✅ Respuesta correcta";
+            score++;
+        } else {
+            button.classList.add("wrong");
+            feedbackEl.textContent = "❌ Respuesta incorrecta. La correcta es: " + correct;
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < trivia.length) {
+            loadQuestion();
+        } else {
+            showScore();
+        }
+    }
+
+    function showScore() {
+        questionEl.textContent = "🎉 Trivia finalizada";
+        optionsEl.innerHTML = "";
+        feedbackEl.textContent = "";
+        nextBtn.style.display = "none";
+        scoreEl.textContent = "Tu puntaje: " + score + " / " + trivia.length;
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
+

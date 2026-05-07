@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ruleta de Lengua</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f1ec;
+        text-align: center;
+    }
+
+    h1 {
+        color: #006847;
+    }
+
+    .flecha {
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 30px solid #333;
+        margin: 20px auto 5px;
+    }
+
+    .ruleta {
+        width: 220px;
+        height: 220px;
+        margin: auto;
+        border-radius: 50%;
+        border: 8px solid #333;
+        background: conic-gradient(
+            #ce1126 0deg 90deg,
+            #006847 90deg 180deg,
+            #ce1126 180deg 270deg,
+            #006847 270deg 360deg
+        );
+        transition: transform 2s ease-out;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background: #006847;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .container {
+        width: 480px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .options button {
+        width: 100%;
+        background: #ce1126;
+        margin: 6px 0;
+    }
+
+    .correct {
+        background: #006847 !important;
+    }
+
+    .wrong {
+        background: #444 !important;
+    }
+
+    #feedback {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🎡 Ruleta de Lengua</h1>
+
+<div class="flecha"></div>
+<div class="ruleta" id="ruleta"></div>
+
+<button onclick="spin()">🎡 Girar ruleta</button>
+
+<div class="container">
+    <div id="question"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+</div>
+
+<script>
+    const preguntas = [
+        {
+            question: "¿Qué palabra nombra personas, animales o cosas?",
+            options: ["Verbo", "Adjetivo", "Sustantivo", "Adverbio"],
+            answer: "Sustantivo"
+        },
+        {
+            question: "¿Qué tipo de palabra indica acción?",
+            options: ["Verbo", "Adjetivo", "Pronombre", "Artículo"],
+            answer: "Verbo"
+        },
+        {
+            question: "¿Cuál palabra está correctamente acentuada?",
+            options: ["Arbol", "Camión", "Examenes", "Lapiz"],
+            answer: "Camión"
+        },
+        {
+            question: "¿Qué palabra tiene significado contrario?",
+            options: ["Sinónimo", "Homónimo", "Antónimo", "Parónimo"],
+            answer: "Antónimo"
+        },
+        {
+            question: "¿Qué tipo de texto cuenta una historia?",
+            options: ["Narrativo", "Descriptivo", "Instructivo", "Argumentativo"],
+            answer: "Narrativo"
+        },
+        {
+            question: "¿Cuál de estas palabras es una conjunción?",
+            options: ["Pero", "Grande", "Mesa", "Correr"],
+            answer: "Pero"
+        }
+    ];
+
+    const ruleta = document.getElementById("ruleta");
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+
+    let rotation = 0;
+
+    function spin() {
+        questionEl.textContent = "";
+        optionsEl.innerHTML = "";
+        feedbackEl.textContent = "";
+
+        rotation += Math.floor(Math.random() * 360) + 720;
+        ruleta.style.transform = "rotate(" + rotation + "deg)";
+
+        setTimeout(showQuestion, 2000);
+    }
+
+    function showQuestion() {
+        const q = preguntas[Math.floor(Math.random() * preguntas.length)];
+        questionEl.textContent = q.question;
+        optionsEl.innerHTML = "";
+
+        q.options.forEach(option => {
+            const btn = document.createElement("button");
+            btn.textContent = option;
+            btn.onclick = () => checkAnswer(btn, option, q.answer);
+            optionsEl.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        Array.from(optionsEl.children).forEach(b => b.disabled = true);
+
+        if (selected === correct) {
+            button.classList.add("correct");
+            feedbackEl.textContent = "✅ Respuesta correcta";
+        } else {
+            button.classList.add("wrong");
+            feedbackEl.textContent = "❌ Incorrecto. Respuesta correcta: " + correct;
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Memorama - Historia de México</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f1ec;
+            text-align: center;
+        }
+
+        h1 {
+            color: #006847;
+        }
+
+        .game-board {
+            width: 640px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            width: 140px;
+            height: 100px;
+            background: #ce1126;
+            color: white;
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 10px;
+            user-select: none;
+        }
+
+        .card.flipped {
+            background: #ffffff;
+            color: #000;
+            cursor: default;
+        }
+
+        .card.matched {
+            background: #006847;
+            color: white;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🧠 Memorama: Historia de México</h1>
+<p>Encuentra los pares correctos</p>
+
+<div class="game-board" id="gameBoard"></div>
+
+<script>
+    const cardsData = [
+        "Independencia 1810",
+        "Independencia 1810",
+        "Miguel Hidalgo",
+        "Miguel Hidalgo",
+        "Revolución Mexicana",
+        "Revolución Mexicana",
+        "Emiliano Zapata",
+        "Emiliano Zapata",
+        "Benito Juárez",
+        "Benito Juárez",
+        "Conquista Española",
+        "Conquista Española",
+        "Porfiriato",
+        "Porfiriato",
+        "Grito de Dolores",
+        "Grito de Dolores"
+    ];
+
+    let firstCard = null;
+    let secondCard = null;
+    let lockBoard = false;
+
+    const board = document.getElementById("gameBoard");
+
+    // Mezclar cartas
+    cardsData.sort(() => 0.5 - Math.random());
+
+    cardsData.forEach(text => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.textContent = "❓";
+        card.dataset.value = text;
+
+        card.addEventListener("click", () => {
+            if (lockBoard || card.classList.contains("flipped")) return;
+
+            card.textContent = text;
+            card.classList.add("flipped");
+
+            if (!firstCard) {
+                firstCard = card;
+            } else {
+                secondCard = card;
+                checkMatch();
+            }
+        });
+
+        board.appendChild(card);
+    });
+
+    function checkMatch() {
+        if (firstCard.dataset.value === secondCard.dataset.value) {
+            firstCard.classList.add("matched");
+            secondCard.classList.add("matched");
+            resetCards();
+        } else {
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.textContent = "❓";
+                secondCard.textContent = "❓";
+                firstCard.classList.remove("flipped");
+                secondCard.classList.remove("flipped");
+                resetCards();
+            }, 1000);
+        }
+    }
+
+    function resetCards() {
+        [firstCard, secondCard] = [null, null];
+        lockBoard = false;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ruleta de Matemáticas</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f6fc;
+    text-align: center;
+}
+
+.contenedor {
+    background: white;
+    width: 420px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.ruleta {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 10px solid #4CAF50;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    transition: transform 2s;
+}
+
+input {
+    padding: 8px;
+    width: 80%;
+    margin-top: 10px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.correcto {
+    color: green;
+    font-weight: bold;
+}
+
+.incorrecto {
+    color: red;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+    <h1>🎡 Ruleta de Matemáticas</h1>
+
+    <div class="ruleta" id="ruleta">GIRA 🎯</div>
+
+    <button onclick="girarRuleta()">Girar ruleta</button>
+
+    <p id="pregunta"></p>
+
+    <input type="text" id="respuestaUsuario" placeholder="Escribe tu respuesta">
+
+    <br>
+    <button onclick="verificarRespuesta()">Verificar</button>
+
+    <p id="resultado"></p>
+</div>
+
+<script>
+const preguntas = [
+    { texto: "¿Cuánto es 9 + 7?", respuesta: "16" },
+    { texto: "¿Cuánto es 6 × 8?", respuesta: "48" },
+    { texto: "¿Cuánto es 45 ÷ 5?", respuesta: "9" },
+    { texto: "¿Cuánto es 12 - 4?", respuesta: "8" },
+    { texto: "¿Cuántos lados tiene un triángulo?", respuesta: "3" },
+    { texto: "¿Cuál es el perímetro de un cuadrado de lado 5?", respuesta: "20" },
+    { texto: "¿Cuánto es 3²?", respuesta: "9" }
+];
+
+let giro = 0;
+let preguntaActual = null;
+
+function girarRuleta() {
+    giro += Math.floor(Math.random() * 360) + 720;
+    document.getElementById("ruleta").style.transform =
+        "rotate(" + giro + "deg)";
+
+    preguntaActual = preguntas[Math.floor(Math.random() * preguntas.length)];
+
+    document.getElementById("resultado").textContent = "";
+    document.getElementById("respuestaUsuario").value = "";
+
+    setTimeout(() => {
+        document.getElementById("pregunta").textContent =
+            "🧠 Pregunta: " + preguntaActual.texto;
+    }, 2000);
+}
+
+function verificarRespuesta() {
+    const respuesta = document.getElementById("respuestaUsuario").value.trim();
+    const resultado = document.getElementById("resultado");
+
+    if (!preguntaActual) {
+        resultado.textContent = "⚠️ Primero gira la ruleta";
+        return;
+    }
+
+    if (respuesta === preguntaActual.respuesta) {
+        resultado.textContent = "✅ Respuesta correcta";
+        resultado.className = "correcto";
+    } else {
+        resultado.textContent =
+            "❌ Incorrecto. La respuesta correcta es " + preguntaActual.respuesta;
+        resultado.className = "incorrecto";
+    }
+}
+</script>
+
+</body>
+</html>

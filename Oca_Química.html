@@ -1,0 +1,150 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Oca de Química</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e1f5fe;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #01579b;
+    }
+
+    .tablero {
+        display: grid;
+        grid-template-columns: repeat(5, 80px);
+        gap: 10px;
+        justify-content: center;
+        margin: 20px auto;
+    }
+
+    .casilla {
+        width: 80px;
+        height: 80px;
+        background-color: white;
+        border: 2px solid #0288d1;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        position: relative;
+    }
+
+    .jugador {
+        width: 20px;
+        height: 20px;
+        background-color: #e53935;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #0288d1;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #01579b;
+    }
+
+    #mensaje {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🧪 Juego de la Oca de Química</h1>
+
+<div class="tablero" id="tablero"></div>
+
+<button onclick="lanzarDado()">🎲 Lanzar dado</button>
+
+<p id="mensaje"></p>
+
+<script>
+const totalCasillas = 20;
+let posicion = 1;
+
+const preguntas = {
+    2: { pregunta: "¿Cuál es el símbolo del agua?", respuesta: "h2o" },
+    3: { pregunta: "¿Qué partícula tiene carga negativa?", respuesta: "electrón" },
+    4: { pregunta: "¿Cuál es el pH del agua pura?", respuesta: "7" },
+    5: { pregunta: "¿Qué elemento tiene el símbolo Na?", respuesta: "sodio" },
+    6: { pregunta: "¿Cuál es el símbolo del oxígeno?", respuesta: "o" },
+    7: { pregunta: "¿Qué gas necesitamos para respirar?", respuesta: "oxígeno" },
+    8: { pregunta: "¿Cuál es el símbolo del hidrógeno?", respuesta: "h" },
+    9: { pregunta: "¿Qué estado de la materia tiene forma fija?", respuesta: "sólido" },
+    10:{ pregunta: "¿Cómo se llama la tabla de los elementos?", respuesta: "tabla periódica" }
+};
+
+const tablero = document.getElementById("tablero");
+
+for (let i = 1; i <= totalCasillas; i++) {
+    const casilla = document.createElement("div");
+    casilla.className = "casilla";
+    casilla.id = "c" + i;
+    casilla.textContent = i;
+    tablero.appendChild(casilla);
+}
+
+const jugador = document.createElement("div");
+jugador.className = "jugador";
+document.getElementById("c1").appendChild(jugador);
+
+function lanzarDado() {
+    let dado = Math.floor(Math.random() * 6) + 1;
+    posicion += dado;
+
+    if (posicion >= totalCasillas) {
+        posicion = totalCasillas;
+        document.getElementById("mensaje").textContent =
+            "🎉 ¡Ganaste el juego!";
+    } else {
+        document.getElementById("mensaje").textContent =
+            "🎲 Sacaste " + dado;
+    }
+
+    moverJugador();
+    verificarPregunta();
+}
+
+function moverJugador() {
+    document.getElementById("c" + posicion).appendChild(jugador);
+}
+
+function verificarPregunta() {
+    if (preguntas[posicion]) {
+        let userRespuesta = prompt(preguntas[posicion].pregunta);
+        if (userRespuesta) {
+            userRespuesta = userRespuesta.toLowerCase().trim();
+            if (userRespuesta === preguntas[posicion].respuesta) {
+                alert("✅ ¡Respuesta correcta!");
+            } else {
+                alert("❌ Incorrecto\nRespuesta correcta: " + preguntas[posicion].respuesta);
+                posicion--;
+                moverJugador();
+            }
+        }
+    }
+}
+</script>
+
+</body>
+</html>
+

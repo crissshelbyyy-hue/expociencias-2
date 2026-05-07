@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Memorama de Química</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eef3f8;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(4, 140px);
+    gap: 15px;
+    justify-content: center;
+    margin: 30px auto;
+}
+
+.carta {
+    height: 90px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 8px;
+    text-align: center;
+}
+
+.carta.volteada {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+    cursor: default;
+}
+
+.carta.correcta {
+    background-color: #2196F3;
+    color: white;
+    cursor: default;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🧪 Memorama de Química</h1>
+<p>Encuentra el concepto y su definición</p>
+
+<div class="tablero" id="tablero"></div>
+
+<script>
+const pares = [
+    { texto: "Átomo", valor: 1 },
+    { texto: "Unidad más pequeña de un elemento", valor: 1 },
+
+    { texto: "Molécula", valor: 2 },
+    { texto: "Unión de dos o más átomos", valor: 2 },
+
+    { texto: "Elemento", valor: 3 },
+    { texto: "Sustancia formada por un solo tipo de átomo", valor: 3 },
+
+    { texto: "Compuesto", valor: 4 },
+    { texto: "Sustancia formada por diferentes elementos", valor: 4 },
+
+    { texto: "Mezcla", valor: 5 },
+    { texto: "Combinación física de sustancias", valor: 5 },
+
+    { texto: "Cambio químico", valor: 6 },
+    { texto: "Se forman sustancias nuevas", valor: 6 }
+];
+
+let cartas = [];
+let seleccionadas = [];
+let bloqueo = false;
+
+function iniciarJuego() {
+    cartas = [...pares].sort(() => Math.random() - 0.5);
+    const tablero = document.getElementById("tablero");
+    tablero.innerHTML = "";
+
+    cartas.forEach((carta) => {
+        const div = document.createElement("div");
+        div.classList.add("carta");
+        div.dataset.valor = carta.valor;
+        div.textContent = "?";
+
+        div.addEventListener("click", () => voltear(div, carta.texto));
+        tablero.appendChild(div);
+    });
+}
+
+function voltear(div, texto) {
+    if (bloqueo || div.classList.contains("volteada")) return;
+
+    div.textContent = texto;
+    div.classList.add("volteada");
+    seleccionadas.push(div);
+
+    if (seleccionadas.length === 2) {
+        bloqueo = true;
+        setTimeout(comprobar, 900);
+    }
+}
+
+function comprobar() {
+    const [c1, c2] = seleccionadas;
+
+    if (c1.dataset.valor === c2.dataset.valor) {
+        c1.classList.add("correcta");
+        c2.classList.add("correcta");
+    } else {
+        c1.textContent = "?";
+        c2.textContent = "?";
+        c1.classList.remove("volteada");
+        c2.classList.remove("volteada");
+    }
+
+    seleccionadas = [];
+    bloqueo = false;
+}
+
+iniciarJuego();
+</script>
+
+</body>
+</html>

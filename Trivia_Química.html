@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Trivia de Química</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e3f2fd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .trivia {
+        background-color: white;
+        width: 420px;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    h1 {
+        color: #1565c0;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #2196f3;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0d47a1;
+    }
+
+    #resultado {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    #puntaje {
+        margin-top: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="trivia">
+    <h1>🧪 Trivia de Química</h1>
+
+    <p id="pregunta"></p>
+
+    <button onclick="responder(0)" id="op0"></button>
+    <button onclick="responder(1)" id="op1"></button>
+    <button onclick="responder(2)" id="op2"></button>
+    <button onclick="responder(3)" id="op3"></button>
+
+    <p id="resultado"></p>
+    <p id="puntaje">Puntaje: 0</p>
+</div>
+
+<script>
+const preguntas = [
+    {
+        pregunta: "¿Cuál es el símbolo químico del agua?",
+        opciones: ["H2O", "O2", "CO2", "NaCl"],
+        correcta: 0
+    },
+    {
+        pregunta: "¿Qué partícula tiene carga negativa?",
+        opciones: ["Protón", "Neutrón", "Electrón", "Átomo"],
+        correcta: 2
+    },
+    {
+        pregunta: "¿Cuál es el pH del agua pura?",
+        opciones: ["5", "7", "9", "14"],
+        correcta: 1
+    },
+    {
+        pregunta: "¿Qué elemento tiene el símbolo Na?",
+        opciones: ["Neón", "Níquel", "Sodio", "Nitrógeno"],
+        correcta: 2
+    }
+];
+
+let actual = 0;
+let puntos = 0;
+
+function mostrarPregunta() {
+    document.getElementById("pregunta").textContent = preguntas[actual].pregunta;
+    for (let i = 0; i < 4; i++) {
+        document.getElementById("op" + i).textContent =
+            preguntas[actual].opciones[i];
+    }
+    document.getElementById("resultado").textContent = "";
+}
+
+function responder(opcion) {
+    if (opcion === preguntas[actual].correcta) {
+        document.getElementById("resultado").textContent = "✅ Correcto";
+        puntos++;
+    } else {
+        document.getElementById("resultado").textContent = "❌ Incorrecto";
+    }
+
+    document.getElementById("puntaje").textContent = "Puntaje: " + puntos;
+    actual++;
+
+    if (actual < preguntas.length) {
+        setTimeout(mostrarPregunta, 1000);
+    } else {
+        setTimeout(() => {
+            alert("🎉 Trivia terminada\nPuntaje final: " + puntos);
+        }, 800);
+    }
+}
+
+mostrarPregunta();
+</script>
+
+</body>
+</html>
+
+
