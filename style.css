@@ -557,3 +557,45 @@ footer {
     padding: 1.5rem;
   }
 }
+.submenu {
+  display: none;
+  padding: 12px;
+  margin-bottom: 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.submenu.open {
+  display: block;
+}
+
+.submenu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sub-card {
+  display: block;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: inherit;
+  transition: border-color 0.2s;
+}
+
+.sub-card:hover {
+  border-color: #888;
+}
+
+.sub-card h3 {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.sub-card p {
+  font-size: 12px;
+  color: #666;
+}
