@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ruleta Matemática</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: #fff;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+#ruleta {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 10px solid white;
+  margin: 20px auto;
+  position: relative;
+  transition: transform 3s ease-out;
+}
+
+.sector {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  transform-origin: 100% 100%;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffcc00;
+  cursor: pointer;
+}
+
+#pregunta {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
+#resultado {
+  margin-top: 10px;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+<h1>🎡 Ruleta de Matemáticas</h1>
+
+<div id="ruleta"></div>
+<button onclick="girar()">Girar</button>
+
+<div id="pregunta"></div>
+<input type="text" id="respuesta" placeholder="Tu respuesta">
+<button onclick="verificar()">Responder</button>
+<div id="resultado"></div>
+
+<script>
+const preguntas = [
+  {p: "¿Cuánto es 5 + 3?", r: "8"},
+  {p: "¿Cuánto es 10 - 4?", r: "6"},
+  {p: "¿Cuánto es 2 x 3?", r: "6"},
+  {p: "¿Cuánto es 12 ÷ 4?", r: "3"},
+  {p: "¿Cuánto es 7 + 6?", r: "13"},
+  {p: "¿Cuánto es 9 - 5?", r: "4"}
+];
+
+let indiceActual = 0;
+
+function girar() {
+  const ruleta = document.getElementById("ruleta");
+  const grados = Math.floor(Math.random() * 360) + 720;
+  ruleta.style.transform = `rotate(${grados}deg)`;
+
+  indiceActual = Math.floor(Math.random() * preguntas.length);
+  document.getElementById("pregunta").innerText = preguntas[indiceActual].p;
+  document.getElementById("resultado").innerText = "";
+}
+
+function verificar() {
+  const respuestaUsuario = document.getElementById("respuesta").value;
+  const correcta = preguntas[indiceActual].r;
+
+  if(respuestaUsuario == correcta) {
+    document.getElementById("resultado").innerText = "✅ ¡Correcto!";
+  } else {
+    document.getElementById("resultado").innerText = "❌ Incorrecto. Respuesta: " + correcta;
+  }
+}
+
+// Crear colores de ruleta
+const ruleta = document.getElementById("ruleta");
+const colores = ["#ff7675", "#74b9ff", "#55efc4", "#ffeaa7", "#a29bfe", "#fd79a8"];
+
+for(let i = 0; i < 6; i++) {
+  const sector = document.createElement("div");
+  sector.classList.add("sector");
+  sector.style.background = colores[i];
+  sector.style.transform = `rotate(${i * 60}deg) skewY(-30deg)`;
+  ruleta.appendChild(sector);
+}
+</script>
+<div style="margin:30px; padding:15px; background:#ffffffaa; border-radius:10px; max-width:600px; margin-left:auto; margin-right:auto;">
+  <h2>¿Para qué sirve este juego?</h2>
+  <p>
+    Esta ruleta de matemáticas está diseñada para ayudar a estudiantes de primaria a practicar y mejorar sus habilidades numéricas de forma divertida e interactiva.
+    A través de preguntas sencillas, los niños pueden reforzar operaciones básicas como suma, resta, multiplicación y división.
+  </p>
+  <p>
+    Además, fomenta el pensamiento lógico, la concentración y el aprendizaje mediante el juego, haciendo que las matemáticas sean más fáciles y entretenidas.
+  </p>
+</div>
+</body>
+</html>

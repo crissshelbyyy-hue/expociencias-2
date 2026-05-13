@@ -599,3 +599,25 @@ footer {
   font-size: 12px;
   color: #666;
 }
+.btn-primary {
+  display: inline-block;
+  text-decoration: none;
+  background-color: transparent;
+  color: inherit;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #f5f5f5;
+  border-color: #888;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}

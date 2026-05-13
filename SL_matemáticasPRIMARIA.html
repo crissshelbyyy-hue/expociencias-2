@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sopa de Letras - Matemáticas</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    color:#333;
+}
+
+h1{
+    margin-top:20px;
+}
+
+#sopa{
+    display:grid;
+    grid-template-columns: repeat(10,40px);
+    gap:5px;
+    justify-content:center;
+    margin:20px auto;
+}
+
+.letra{
+    width:40px;
+    height:40px;
+    background:white;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    user-select:none;
+}
+
+.seleccionada{
+    background:#0984e3;
+    color:white;
+}
+
+.encontrada{
+    background:#00b894;
+    color:white;
+}
+
+#palabras{
+    margin-top:20px;
+    font-size:18px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#0984e3;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+#resultado{
+    margin-top:15px;
+    font-size:20px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📐 Sopa de Letras - Matemáticas</h1>
+
+<p>Encuentra las palabras escondidas relacionadas con matemáticas.</p>
+
+<div id="sopa"></div>
+
+<div id="palabras">
+    <h3>Palabras a encontrar:</h3>
+    <p>SUMA - RESTA - MULTIPLICA - DIVISION</p>
+</div>
+
+<button onclick="verificar()">Verificar</button>
+
+<div id="resultado"></div>
+
+<div style="margin:30px; padding:15px; background:#ffffffaa; border-radius:10px; max-width:600px; margin-left:auto; margin-right:auto;">
+  <h2>¿Para qué sirve este juego?</h2>
+
+  <p>
+    Esta sopa de letras de matemáticas está diseñada para ayudar a estudiantes de primaria a practicar y reforzar conceptos básicos matemáticos de una manera divertida e interactiva.
+  </p>
+
+  <p>
+    A través de la búsqueda de palabras, los niños pueden aprender operaciones matemáticas importantes como suma, resta, multiplicación y división, mientras desarrollan su concentración y memoria.
+  </p>
+</div>
+
+<script>
+const letras = [
+['S','U','M','A','A','B','C','D','E','F'],
+['G','H','I','J','K','L','M','N','O','P'],
+['R','E','S','T','A','Q','R','S','T','U'],
+['V','W','X','Y','Z','A','B','C','D','E'],
+['M','U','L','T','I','P','L','I','C','A'],
+['F','G','H','I','J','K','L','M','N','R'],
+['D','I','V','I','S','I','O','N','O','S'],
+['P','Q','R','S','T','U','V','W','X','Y'],
+['Z','A','B','C','D','E','F','G','H','I'],
+['J','K','L','M','N','O','P','Q','R','S']
+];
+
+const sopa = document.getElementById("sopa");
+
+for(let fila=0; fila<10; fila++){
+    for(let col=0; col<10; col++){
+        const div = document.createElement("div");
+        div.classList.add("letra");
+        div.textContent = letras[fila][col];
+
+        div.addEventListener("click", ()=>{
+            div.classList.toggle("seleccionada");
+        });
+
+        sopa.appendChild(div);
+    }
+}
+
+function verificar(){
+    const seleccionadas = document.querySelectorAll(".seleccionada");
+
+    if(seleccionadas.length > 0){
+        seleccionadas.forEach(c=>{
+            c.classList.add("encontrada");
+            c.classList.remove("seleccionada");
+        });
+
+        document.getElementById("resultado").innerHTML =
+        "✅ ¡Muy bien! Encontraste palabras de matemáticas.";
+    }else{
+        document.getElementById("resultado").innerHTML =
+        "❌ Selecciona algunas letras.";
+    }
+}
+</script>
+
+</body>
+</html>

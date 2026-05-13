@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Interactivo - Historia</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #f6d365, #fda085);
+    text-align:center;
+    color:#333;
+}
+
+.quiz{
+    background:white;
+    width:500px;
+    margin:40px auto;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+button{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#e17055;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#d35400;
+}
+
+#resultado{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.info{
+    margin-top:20px;
+    background:#fff3;
+    padding:15px;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz">
+
+<h1>📜 Quiz Interactivo de Historia</h1>
+
+<h2 id="pregunta"></h2>
+
+<div id="respuestas"></div>
+
+<div id="resultado"></div>
+
+<div class="info">
+<h3>¿Para qué sirve este juego?</h3>
+
+<p>
+Este quiz ayuda a estudiantes de primaria a aprender historia de forma divertida e interactiva.
+</p>
+
+<p>
+Los niños pueden reforzar conocimientos sobre personajes históricos, culturas antiguas y acontecimientos importantes mientras responden preguntas.
+</p>
+</div>
+
+</div>
+
+<script>
+
+const preguntas = [
+
+{
+pregunta:"¿Quién descubrió América?",
+respuestas:["Cristóbal Colón","Miguel Hidalgo","Benito Juárez"],
+correcta:"Cristóbal Colón"
+},
+
+{
+pregunta:"¿En qué año se descubrió América?",
+respuestas:["1492","1810","1910"],
+correcta:"1492"
+},
+
+{
+pregunta:"¿Qué cultura construyó pirámides en México?",
+respuestas:["Aztecas","Romanos","Vikingos"],
+correcta:"Aztecas"
+},
+
+{
+pregunta:"¿Quién inició la Independencia de México?",
+respuestas:["Miguel Hidalgo","Porfirio Díaz","Hernán Cortés"],
+correcta:"Miguel Hidalgo"
+},
+
+{
+pregunta:"¿Cómo se llama nuestro país?",
+respuestas:["México","España","Brasil"],
+correcta:"México"
+}
+
+];
+
+let actual = 0;
+let puntos = 0;
+
+const pregunta = document.getElementById("pregunta");
+const respuestas = document.getElementById("respuestas");
+const resultado = document.getElementById("resultado");
+
+function mostrarPregunta(){
+
+    respuestas.innerHTML = "";
+
+    pregunta.innerHTML = preguntas[actual].pregunta;
+
+    preguntas[actual].respuestas.forEach(opcion=>{
+
+        const boton = document.createElement("button");
+
+        boton.innerHTML = opcion;
+
+        boton.onclick = ()=> verificar(opcion);
+
+        respuestas.appendChild(boton);
+
+    });
+}
+
+function verificar(opcion){
+
+    if(opcion === preguntas[actual].correcta){
+
+        puntos++;
+
+        resultado.innerHTML = "✅ ¡Correcto!";
+
+    }else{
+
+        resultado.innerHTML =
+        "❌ Incorrecto. Respuesta: " +
+        preguntas[actual].correcta;
+    }
+
+    actual++;
+
+    setTimeout(()=>{
+
+        resultado.innerHTML = "";
+
+        if(actual < preguntas.length){
+
+            mostrarPregunta();
+
+        }else{
+
+            pregunta.innerHTML =
+            "🎉 Juego terminado";
+
+            respuestas.innerHTML =
+            "<h2>Puntuación: " +
+            puntos +
+            " / " +
+            preguntas.length +
+            "</h2>";
+        }
+
+    },1500);
+}
+
+mostrarPregunta();
+
+</script>
+
+</body>
+</html>

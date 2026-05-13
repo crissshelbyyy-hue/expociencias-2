@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ruleta de Lengua</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+  color: #333;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+#ruleta {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 10px solid white;
+  margin: 20px auto;
+  position: relative;
+  transition: transform 3s ease-out;
+}
+
+.sector {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  transform-origin: 100% 100%;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background-color: #6c5ce7;
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#pregunta {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
+#resultado {
+  margin-top: 10px;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+<h1>📚 Ruleta de Lengua</h1>
+
+<div id="ruleta"></div>
+<button onclick="girar()">Girar</button>
+
+<div id="pregunta"></div>
+<input type="text" id="respuesta" placeholder="Tu respuesta">
+<button onclick="verificar()">Responder</button>
+<div id="resultado"></div>
+
+<script>
+const preguntas = [
+  {p: "¿Cuál es el plural de 'casa'?", r: "casas"},
+  {p: "¿Qué es un sustantivo?", r: "nombre"},
+  {p: "¿Cuál es el sinónimo de 'feliz'?", r: "contento"},
+  {p: "¿Cuál es el antónimo de 'grande'?", r: "pequeño"},
+  {p: "¿Cuántas vocales hay en español?", r: "5"},
+  {p: "¿Qué signo se usa para hacer una pregunta?", r: "?"}
+];
+
+let indiceActual = 0;
+
+function girar() {
+  const ruleta = document.getElementById("ruleta");
+  const grados = Math.floor(Math.random() * 360) + 720;
+  ruleta.style.transform = `rotate(${grados}deg)`;
+
+  indiceActual = Math.floor(Math.random() * preguntas.length);
+  document.getElementById("pregunta").innerText = preguntas[indiceActual].p;
+  document.getElementById("resultado").innerText = "";
+  document.getElementById("respuesta").value = "";
+}
+
+function verificar() {
+  const respuestaUsuario = document.getElementById("respuesta").value.trim().toLowerCase();
+  const correcta = preguntas[indiceActual].r.toLowerCase();
+
+  if(respuestaUsuario === correcta) {
+    document.getElementById("resultado").innerText = "✅ ¡Correcto!";
+  } else {
+    document.getElementById("resultado").innerText = "❌ Incorrecto. Respuesta: " + preguntas[indiceActual].r;
+  }
+}
+
+// Crear ruleta visual
+const ruleta = document.getElementById("ruleta");
+const colores = ["#ff7675", "#74b9ff", "#55efc4", "#ffeaa7", "#a29bfe", "#fd79a8"];
+
+for(let i = 0; i < 6; i++) {
+  const sector = document.createElement("div");
+  sector.classList.add("sector");
+  sector.style.background = colores[i];
+  sector.style.transform = `rotate(${i * 60}deg) skewY(-30deg)`;
+  ruleta.appendChild(sector);
+}
+</script>
+<div style="margin:30px; padding:15px; background:#ffffffaa; border-radius:10px; max-width:600px; margin-left:auto; margin-right:auto;">
+  <h2>¿Para qué sirve este juego?</h2>
+  <p>
+    Esta ruleta de lengua está diseñada para ayudar a estudiantes de primaria a practicar y reforzar sus conocimientos de español de una forma divertida e interactiva.
+    A través de preguntas sencillas, los niños pueden aprender sobre sustantivos, sinónimos, antónimos y otros temas básicos del lenguaje.
+  </p>
+  <p>
+    Además, fomenta la participación, la memoria y el aprendizaje mediante el juego, haciendo que estudiar sea más dinámico y entretenido.
+  </p>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sopa de Letras - Historia</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background: linear-gradient(to right, #f6d365, #fda085);
+    color:#333;
+}
+
+h1{
+    margin-top:20px;
+}
+
+#sopa{
+    display:grid;
+    grid-template-columns: repeat(10,40px);
+    gap:5px;
+    justify-content:center;
+    margin:20px auto;
+}
+
+.letra{
+    width:40px;
+    height:40px;
+    background:white;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    user-select:none;
+}
+
+.seleccionada{
+    background:#e17055;
+    color:white;
+}
+
+.encontrada{
+    background:#00b894;
+    color:white;
+}
+
+#palabras{
+    margin-top:20px;
+    font-size:18px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#e17055;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+#resultado{
+    margin-top:15px;
+    font-size:20px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📜 Sopa de Letras - Historia</h1>
+
+<p>Encuentra las palabras escondidas relacionadas con historia.</p>
+
+<div id="sopa"></div>
+
+<div id="palabras">
+    <h3>Palabras a encontrar:</h3>
+    <p>AZTECAS - COLON - PIRAMIDE - MEXICO</p>
+</div>
+
+<button onclick="verificar()">Verificar</button>
+
+<div id="resultado"></div>
+
+<div style="margin:30px; padding:15px; background:#ffffffaa; border-radius:10px; max-width:600px; margin-left:auto; margin-right:auto;">
+  <h2>¿Para qué sirve este juego?</h2>
+
+  <p>
+    Esta sopa de letras de historia está diseñada para ayudar a estudiantes de primaria a aprender sobre personajes, culturas y acontecimientos importantes del pasado de una forma divertida e interactiva.
+  </p>
+
+  <p>
+    Además, fortalece la memoria, la concentración y el interés por la historia mediante el juego y la búsqueda de palabras.
+  </p>
+</div>
+
+<script>
+const letras = [
+['A','Z','T','E','C','A','S','A','B','C'],
+['D','E','F','G','H','I','J','K','L','M'],
+['C','O','L','O','N','N','O','P','Q','R'],
+['S','T','U','V','W','X','Y','Z','A','B'],
+['P','I','R','A','M','I','D','E','C','D'],
+['E','F','G','H','I','J','K','L','M','N'],
+['M','E','X','I','C','O','O','P','Q','R'],
+['S','T','U','V','W','X','Y','Z','A','B'],
+['C','D','E','F','G','H','I','J','K','L'],
+['M','N','Ñ','O','P','Q','R','S','T','U']
+];
+
+const sopa = document.getElementById("sopa");
+
+for(let fila=0; fila<10; fila++){
+    for(let col=0; col<10; col++){
+        const div = document.createElement("div");
+        div.classList.add("letra");
+        div.textContent = letras[fila][col];
+
+        div.addEventListener("click", ()=>{
+            div.classList.toggle("seleccionada");
+        });
+
+        sopa.appendChild(div);
+    }
+}
+
+function verificar(){
+    const seleccionadas = document.querySelectorAll(".seleccionada");
+
+    if(seleccionadas.length > 0){
+        seleccionadas.forEach(c=>{
+            c.classList.add("encontrada");
+            c.classList.remove("seleccionada");
+        });
+
+        document.getElementById("resultado").innerHTML =
+        "✅ ¡Muy bien! Encontraste palabras de historia.";
+    }else{
+        document.getElementById("resultado").innerHTML =
+        "❌ Selecciona algunas letras.";
+    }
+}
+function verificar(){
+
+    const seleccionadas = document.querySelectorAll(".seleccionada");
+
+    let palabra = "";
+
+    seleccionadas.forEach(c=>{
+        palabra += c.textContent;
+    });
+
+    palabra = palabra.toUpperCase();
+
+    const palabrasValidas = [
+        "AZTECAS",
+        "COLON",
+        "PIRAMIDE",
+        "MEXICO"
+    ];
+
+    if(palabrasValidas.includes(palabra)){
+
+        seleccionadas.forEach(c=>{
+            c.classList.add("encontrada");
+            c.classList.remove("seleccionada");
+        });
+
+        document.getElementById("resultado").innerHTML =
+        "✅ ¡Correcto! Encontraste la palabra: " + palabra;
+
+    }else{
+
+        seleccionadas.forEach(c=>{
+            c.classList.remove("seleccionada");
+        });
+
+        document.getElementById("resultado").innerHTML =
+        "❌ Esa palabra no está en la lista.";
+
+    }
+}
+</script>
+
+</body>
+</html>

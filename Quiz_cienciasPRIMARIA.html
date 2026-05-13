@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz de Ciencias</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.quiz-container{
+    background: white;
+    width: 420px;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+h1{
+    color: #0077cc;
+}
+
+#question{
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+.btn{
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #00b894;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover{
+    background: #019875;
+}
+
+#result{
+    font-size: 22px;
+    margin-top: 20px;
+    color: #d63031;
+}
+
+.info{
+    margin-top: 20px;
+    background: #dff9fb;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #130f40;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="quiz-container">
+
+    <h1>🔬 Quiz de Ciencias 🌎</h1>
+
+    <div id="question">Pregunta aquí</div>
+
+    <button class="btn" onclick="checkAnswer(0)" id="btn0"></button>
+    <button class="btn" onclick="checkAnswer(1)" id="btn1"></button>
+    <button class="btn" onclick="checkAnswer(2)" id="btn2"></button>
+    <button class="btn" onclick="checkAnswer(3)" id="btn3"></button>
+
+    <div id="result"></div>
+
+    <div class="info">
+        <b>¿Para qué sirve este juego?</b><br><br>
+
+        ✅ Ayuda a aprender ciencias de forma divertida.<br>
+        ✅ Permite practicar preguntas y respuestas.<br>
+        ✅ Enseña usando un juego interactivo.<br>
+        ✅ Cuenta los puntos obtenidos.<br>
+        ✅ Sirve para tareas, proyectos o exposiciones escolares.
+    </div>
+
+</div>
+
+<script>
+
+const quiz = [
+
+{
+    question: "¿Qué planeta es conocido como el planeta rojo?",
+    answers: ["Tierra", "Marte", "Venus", "Júpiter"],
+    correct: 1
+},
+
+{
+    question: "¿Qué necesitan las plantas para vivir?",
+    answers: ["Plástico", "Luz solar", "Piedras", "Metal"],
+    correct: 1
+},
+
+{
+    question: "¿Cuál es el estado sólido del agua?",
+    answers: ["Vapor", "Lluvia", "Hielo", "Nube"],
+    correct: 2
+},
+
+{
+    question: "¿Qué órgano bombea sangre en el cuerpo?",
+    answers: ["Pulmón", "Corazón", "Cerebro", "Hueso"],
+    correct: 1
+},
+
+{
+    question: "¿Qué animal vive en el océano?",
+    answers: ["León", "Vaca", "Ballena", "Perro"],
+    correct: 2
+}
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion(){
+
+    document.getElementById("question").innerText =
+    quiz[currentQuestion].question;
+
+    for(let i=0; i<4; i++){
+
+        document.getElementById("btn"+i).innerText =
+        quiz[currentQuestion].answers[i];
+
+    }
+
+}
+
+function checkAnswer(answer){
+
+    if(answer == quiz[currentQuestion].correct){
+
+        alert("✅ ¡Correcto!");
+        score++;
+
+    } else {
+
+        alert("❌ Incorrecto");
+
+    }
+
+    currentQuestion++;
+
+    if(currentQuestion < quiz.length){
+
+        loadQuestion();
+
+    } else {
+
+        showResult();
+
+    }
+
+}
+
+function showResult(){
+
+    document.querySelector(".quiz-container").innerHTML =
+
+    `
+    <h1>🎉 Juego terminado 🎉</h1>
+
+    <p id="result">
+    Tu puntuación es: ${score} / ${quiz.length}
+    </p>
+
+    <button class="btn" onclick="location.reload()">
+    Jugar otra vez
+    </button>
+    `;
+
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

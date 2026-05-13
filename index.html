@@ -12,6 +12,7 @@
     <img src="ChatGPT Image 11 may 2026, 08_52_34.png" alt="">
 </head>
 <body>
+  <a href="quienes somos.html.html" class="btn-primary">quienes somos</a>
     <img src="THINKTOPIA.png" alt="">
     <section id="Primaria">
   <h2>primaria</h2>
@@ -45,6 +46,19 @@
         <a href="Adivina_Mate.html" class="sub-card">
           <h3>adivina</h3>
           <p>adivina adivinador</p>
+        </a>
+        <a href="Quiz_matePRIMARIA.html" class="sub-card">
+          <h3>quiz</h3>
+          <p>si</p>
+          
+        </a>
+        <a href="SL_matemáticasPRIMARIA.html" class="sub-card">
+          <h3>no c</h3>
+          <p>numeros</p>
+        </a>
+        <a href="Juegos_ matematicasPRIMARIA.html" class="sub-card">
+          <h3>memorama</h3>
+          <p>numeros</p>
         </a>
       </div>
     </div>
@@ -159,15 +173,15 @@
 
     <!-- MATEMÁTICAS -->
     <div class="card-grid">
-      <div class="card" onclick="toggleSubmenu('sub-mat', this)">
+      <div class="card" onclick="toggleSubmenu('sub-mat2', this)">
         <img src="imagen de mate" alt="">
         <div class="icon-card">
-          <h2>Matemáticas</h2>
+          <h2>Matemáticas 2</h2>
           <p>Descubre tu pasión por las matemáticas</p>
         </div>
       </div>
     </div>
-    <div id="sub-mat" class="submenu">
+    <div id="sub-mat2" class="submenu">
       <div class="submenu-grid">
         <a href="Memorama_Mate.html" class="sub-card">
           <h3>memorama</h3>
@@ -190,7 +204,7 @@
 
     <!-- HUMANIDADES -->
     <div class="card-grid">
-      <div class="card" onclick="toggleSubmenu('sub-hum', this)">
+      <div class="card" onclick="toggleSubmenu('sub-hum2', this)">
         <img src="imagen de humanidades" alt="">
         <div class="icon-card">
           <h2>Humanidades</h2>
@@ -198,7 +212,7 @@
         </div>
       </div>
     </div>
-    <div id="sub-hum" class="submenu">
+    <div id="sub-hum2" class="submenu">
       <div class="submenu-grid">
         <a href="Memorama_Historia.html" class="sub-card">
           <h3>memorama</h3>
@@ -221,7 +235,7 @@
 
     <!-- CIENCIAS -->
     <div class="card-grid">
-      <div class="card" onclick="toggleSubmenu('sub-cie', this)">
+      <div class="card" onclick="toggleSubmenu('sub-cie2', this)">
         <img src="imagen de ciencias" alt="">
         <div class="icon-card">
           <h2>Ciencias</h2>
@@ -229,7 +243,7 @@
         </div>
       </div>
     </div>
-    <div id="sub-cie" class="submenu">
+    <div id="sub-cie2" class="submenu">
       <div class="submenu-grid">
         <a href="Memorama_Química.html" class="sub-card">
           <h3>memorama</h3>
@@ -252,7 +266,7 @@
 
     <!-- LENGUA -->
     <div class="card-grid">
-      <div class="card" onclick="toggleSubmenu('sub-len', this)">
+      <div class="card" onclick="toggleSubmenu('sub-len2', this)">
         <img src="imagen de lengua" alt="">
         <div class="icon-card">
           <h2>Lengua</h2>
@@ -260,7 +274,7 @@
         </div>
       </div>
     </div>
-    <div id="sub-len" class="submenu">
+    <div id="sub-len2" class="submenu">
       <div class="submenu-grid">
         <a href="Oca_Lengua.html" class="sub-card">
           <h3>Español</h3>
@@ -282,6 +296,14 @@
     </div>
 
   </div>
+    <script>
+  function toggleSubmenu(id, card) {
+    const sub = document.getElementById(id);
+    const isOpen = sub.classList.contains('open');
+    document.querySelectorAll('.submenu').forEach(s => s.classList.remove('open'));
+    if (!isOpen) sub.classList.add('open');
+  }
+</script>
 </section>
     <footer>
         <div class="footer-content">

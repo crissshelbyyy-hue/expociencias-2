@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Interactivo - Lengua</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #a18cd1, #fbc2eb);
+    text-align:center;
+    color:#333;
+}
+
+.quiz{
+    background:white;
+    width:500px;
+    margin:40px auto;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+button{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#6c5ce7;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#4834d4;
+}
+
+#resultado{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.info{
+    margin-top:20px;
+    background:#fff3;
+    padding:15px;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz">
+
+<h1>📚 Quiz Interactivo de Lengua</h1>
+
+<h2 id="pregunta"></h2>
+
+<div id="respuestas"></div>
+
+<div id="resultado"></div>
+
+<div class="info">
+<h3>¿Para qué sirve este juego?</h3>
+
+<p>
+Este quiz ayuda a estudiantes de primaria a practicar temas básicos de lengua de una manera divertida e interactiva.
+</p>
+
+<p>
+Los niños pueden aprender vocabulario, sinónimos, antónimos, sustantivos y otros conceptos importantes del español mientras responden preguntas.
+</p>
+</div>
+
+</div>
+
+<script>
+
+const preguntas = [
+
+{
+pregunta:"¿Cuál es el plural de casa?",
+respuestas:["casas","casaes","casitas"],
+correcta:"casas"
+},
+
+{
+pregunta:"¿Cuál es el antónimo de grande?",
+respuestas:["alto","pequeño","ancho"],
+correcta:"pequeño"
+},
+
+{
+pregunta:"¿Cuántas vocales hay en español?",
+respuestas:["3","5","7"],
+correcta:"5"
+},
+
+{
+pregunta:"¿Cuál es el sinónimo de feliz?",
+respuestas:["contento","triste","enojado"],
+correcta:"contento"
+},
+
+{
+pregunta:"¿Qué signo se usa para hacer preguntas?",
+respuestas:["?","!","."],
+correcta:"?"
+}
+
+];
+
+let actual = 0;
+let puntos = 0;
+
+const pregunta = document.getElementById("pregunta");
+const respuestas = document.getElementById("respuestas");
+const resultado = document.getElementById("resultado");
+
+function mostrarPregunta(){
+
+    respuestas.innerHTML = "";
+
+    pregunta.innerHTML = preguntas[actual].pregunta;
+
+    preguntas[actual].respuestas.forEach(opcion=>{
+
+        const boton = document.createElement("button");
+
+        boton.innerHTML = opcion;
+
+        boton.onclick = ()=> verificar(opcion);
+
+        respuestas.appendChild(boton);
+
+    });
+}
+
+function verificar(opcion){
+
+    if(opcion === preguntas[actual].correcta){
+
+        puntos++;
+
+        resultado.innerHTML = "✅ ¡Correcto!";
+
+    }else{
+
+        resultado.innerHTML =
+        "❌ Incorrecto. Respuesta: " +
+        preguntas[actual].correcta;
+    }
+
+    actual++;
+
+    setTimeout(()=>{
+
+        resultado.innerHTML = "";
+
+        if(actual < preguntas.length){
+
+            mostrarPregunta();
+
+        }else{
+
+            pregunta.innerHTML =
+            "🎉 Juego terminado";
+
+            respuestas.innerHTML =
+            "<h2>Puntuación: " +
+            puntos +
+            " / " +
+            preguntas.length +
+            "</h2>";
+        }
+
+    },1500);
+}
+
+mostrarPregunta();
+
+</script>
+
+</body>
+</html>

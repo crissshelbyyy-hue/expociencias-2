@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Interactivo - Matemáticas</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    text-align:center;
+    color:#333;
+}
+
+.quiz{
+    background:white;
+    width:500px;
+    margin:40px auto;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+button{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#0984e3;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0652DD;
+}
+
+#resultado{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.info{
+    margin-top:20px;
+    background:#fff3;
+    padding:15px;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz">
+
+<h1>📐 Quiz Interactivo de Matemáticas</h1>
+
+<h2 id="pregunta"></h2>
+
+<div id="respuestas"></div>
+
+<div id="resultado"></div>
+
+<div class="info">
+<h3>¿Para qué sirve este juego?</h3>
+
+<p>
+Este quiz ayuda a estudiantes de primaria a practicar matemáticas de una manera divertida e interactiva.
+</p>
+
+<p>
+Los niños pueden reforzar operaciones básicas como suma, resta, multiplicación y división mientras responden preguntas y ponen a prueba sus conocimientos.
+</p>
+</div>
+
+</div>
+
+<script>
+
+const preguntas = [
+
+{
+pregunta:"¿Cuánto es 5 + 3?",
+respuestas:["6","8","10"],
+correcta:"8"
+},
+
+{
+pregunta:"¿Cuánto es 10 - 4?",
+respuestas:["5","6","7"],
+correcta:"6"
+},
+
+{
+pregunta:"¿Cuánto es 2 x 4?",
+respuestas:["6","8","10"],
+correcta:"8"
+},
+
+{
+pregunta:"¿Cuánto es 12 ÷ 3?",
+respuestas:["3","4","5"],
+correcta:"4"
+},
+
+{
+pregunta:"¿Cuánto es 7 + 5?",
+respuestas:["10","11","12"],
+correcta:"12"
+}
+
+];
+
+let actual = 0;
+let puntos = 0;
+
+const pregunta = document.getElementById("pregunta");
+const respuestas = document.getElementById("respuestas");
+const resultado = document.getElementById("resultado");
+
+function mostrarPregunta(){
+
+    respuestas.innerHTML = "";
+
+    pregunta.innerHTML = preguntas[actual].pregunta;
+
+    preguntas[actual].respuestas.forEach(opcion=>{
+
+        const boton = document.createElement("button");
+
+        boton.innerHTML = opcion;
+
+        boton.onclick = ()=> verificar(opcion);
+
+        respuestas.appendChild(boton);
+
+    });
+}
+
+function verificar(opcion){
+
+    if(opcion === preguntas[actual].correcta){
+
+        puntos++;
+
+        resultado.innerHTML = "✅ ¡Correcto!";
+
+    }else{
+
+        resultado.innerHTML =
+        "❌ Incorrecto. Respuesta: " +
+        preguntas[actual].correcta;
+    }
+
+    actual++;
+
+    setTimeout(()=>{
+
+        resultado.innerHTML = "";
+
+        if(actual < preguntas.length){
+
+            mostrarPregunta();
+
+        }else{
+
+            pregunta.innerHTML =
+            "🎉 Juego terminado";
+
+            respuestas.innerHTML =
+            "<h2>Puntuación: " +
+            puntos +
+            " / " +
+            preguntas.length +
+            "</h2>";
+        }
+
+    },1500);
+}
+
+mostrarPregunta();
+
+</script>
+
+</body>
+</html>
